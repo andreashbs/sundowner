@@ -2,3 +2,4 @@
 *.bak
 TheBadhorse/
 *.png
+.DS_Store
