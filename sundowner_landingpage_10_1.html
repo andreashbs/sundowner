@@ -3768,12 +3768,12 @@ function switchStatsTab(id) {
 
 function downloadICal() {
   const events = [
-    { date: '20260515', endDate: '20260516', summary: 'Sundowner Stop 1 — Saisonopening Barby Beach Days', location: 'Barby Beach, Magdeburg' },
-    { date: '20260528', endDate: '20260529', summary: 'Sundowner Stop 2 — Montego Beachclub', location: 'Montego Beachclub, Magdeburg' },
-    { date: '20260611', endDate: '20260612', summary: 'Sundowner Stop 3 — Montego Beachclub', location: 'Montego Beachclub, Magdeburg' },
-    { date: '20260625', endDate: '20260626', summary: 'Sundowner Stop 4 — Montego Beachclub', location: 'Montego Beachclub, Magdeburg' },
-    { date: '20260709', endDate: '20260710', summary: 'Sundowner Stop 5 — Montego Beachclub', location: 'Montego Beachclub, Magdeburg' },
-    { date: '20260723', endDate: '20260724', summary: 'Sundowner Stop 6 — Montego Beachclub', location: 'Montego Beachclub, Magdeburg' },
+    { date: '20260515', start: '143000', end: '210000', summary: 'Sundowner — Barby Beach Days', location: 'Barby Beach, Magdeburg', link: 'https://tournifyapp.com/live/sundowner2026stop1', spruch: 'Kein Naturschauspiel, kein Yoga-Retreat — einfach Beachvolleyball, Feierabend und das erste kalte Getränk mit Leuten, die du magst.' },
+    { date: '20260528', start: '163000', end: '210000', summary: 'Sundowner #2', location: 'Montego Beachclub, Magdeburg', link: 'https://tournifyapp.com/live/sundowner2026stop2', spruch: 'Aufschlag, Angriff, Aperol — die Reihenfolge ist verhandelbar.' },
+    { date: '20260611', start: '163000', end: '210000', summary: 'Sundowner #3', location: 'Montego Beachclub, Magdeburg', link: 'https://tournifyapp.com/live/sundowner2026stop3', spruch: 'Kommt für den Sport. Bleibt für die Bar.' },
+    { date: '20260625', start: '163000', end: '210000', summary: 'Sundowner #4', location: 'Montego Beachclub, Magdeburg', link: 'https://tournifyapp.com/live/sundowner2026stop4', spruch: 'Warnung: Suchtgefahr für Feierabend-Cocktails und Aufschlag-Asse.' },
+    { date: '20260709', start: '163000', end: '210000', summary: 'Sundowner #5', location: 'Montego Beachclub, Magdeburg', link: 'https://tournifyapp.com/live/sundowner2026stop5', spruch: 'Sand in den Schuhen, Cocktail in der Hand — Pflichttermin.' },
+    { date: '20260723', start: '163000', end: '210000', summary: 'Sundowner #6', location: 'Montego Beachclub, Magdeburg', link: 'https://tournifyapp.com/live/sundowner2026stop6', spruch: 'Saisonfinale: letzte Chance auf Pokal, Bräune und Bierlaune.' },
   ];
 
   const uid = () => Math.random().toString(36).substr(2, 9) + '@sundowner';
@@ -3788,14 +3788,15 @@ function downloadICal() {
     'X-WR-TIMEZONE:Europe/Berlin',
   ];
 
-  events.forEach(ev => {
+  events.forEach((ev) => {
+    const description = `${ev.spruch}\\n\\nAlle Infos & Live-Ergebnisse: ${ev.link}`;
     ical = ical.concat([
       'BEGIN:VEVENT',
-      'DTSTART;VALUE=DATE:' + ev.date,
-      'DTEND;VALUE=DATE:' + ev.endDate,
+      'DTSTART;TZID=Europe/Berlin:' + ev.date + 'T' + ev.start,
+      'DTEND;TZID=Europe/Berlin:' + ev.date + 'T' + ev.end,
       'SUMMARY:' + ev.summary,
       'LOCATION:' + ev.location,
-      'DESCRIPTION:Quattro Beachvolleyball Reihe · 40 € pro Team · Anmeldung: tournifyapp.com',
+      'DESCRIPTION:' + description,
       'DTSTAMP:' + now,
       'UID:' + uid(),
       'END:VEVENT',
