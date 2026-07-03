@@ -3555,131 +3555,276 @@ function generateTeamCard() {
   const GOLD    = '#eda83b';
   const GOLD_DK = '#c9821f';
   const LINE_C  = 'rgba(21,21,26,0.10)';
+  const GRAY_VAL = 'rgba(21,21,26,0.68)';
   const PAD     = 88;
   const BH      = 'Badhorse, Fredoka, sans-serif';
   const MONO    = '"JetBrains Mono", monospace';
 
   function draw(logo) {
 
-    // ── Helle, sandig-goldene Basis ──
-    const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0,   SAND);
-    bg.addColorStop(0.55, SAND);
-    bg.addColorStop(1,   SAND2);
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    const FRAME  = 28;              // Rahmenbreite (Kartenrand)
+    const RADIUS = 48;               // Ecken-Rundung
+    const INNER  = FRAME + 20;       // Innenabstand des hellen Panels
 
-    // Sonnen-Glow oben (warm, dezent)
-    const g1 = ctx.createRadialGradient(W/2, 60, 0, W/2, 60, W * 0.95);
-    g1.addColorStop(0,   'rgba(237,168,59,0.30)');
-    g1.addColorStop(0.5, 'rgba(237,168,59,0.08)');
-    g1.addColorStop(1,   'rgba(237,168,59,0)');
-    ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+    // ── Äußerer Kartenrahmen (Pokémon-Style: dicker Gold-Rand) ──
+    const frameGrd = ctx.createLinearGradient(0, 0, W, H);
+    frameGrd.addColorStop(0,   '#f5c96a');
+    frameGrd.addColorStop(0.5, GOLD);
+    frameGrd.addColorStop(1,   GOLD_DK);
+    ctx.fillStyle = frameGrd;
+    ctx.beginPath(); ctx.roundRect(0, 0, W, H, RADIUS); ctx.fill();
+
+    // ── Inneres Panel (helle Kartenfläche) ──
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(FRAME, FRAME, W - FRAME * 2, H - FRAME * 2, RADIUS - 12); ctx.clip();
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0,    SAND);
+    bg.addColorStop(0.6,  SAND);
+    bg.addColorStop(1,    SAND2);
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+
+    // Innenrand-Linie (feiner Zierstrich wie bei TCG-Karten)
+    ctx.save();
+    ctx.strokeStyle = 'rgba(21,21,26,0.18)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(INNER, INNER, W - INNER * 2, H - INNER * 2, RADIUS - 24); ctx.stroke();
+    ctx.restore();
 
     // ── Helpers ──
     const cx = (text, y, font, color) => {
       ctx.save(); ctx.font = font; ctx.fillStyle = color;
       ctx.textAlign = 'center'; ctx.fillText(text, W / 2, y); ctx.restore();
     };
+    const lx = (text, x, y, font, color) => {
+      ctx.save(); ctx.font = font; ctx.fillStyle = color;
+      ctx.textAlign = 'left'; ctx.fillText(text, x, y); ctx.restore();
+    };
+    const rx = (text, x, y, font, color) => {
+      ctx.save(); ctx.font = font; ctx.fillStyle = color;
+      ctx.textAlign = 'right'; ctx.fillText(text, x, y); ctx.restore();
+    };
     const hline = (y, color = LINE_C, w = 1) => {
       ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = w;
-      ctx.beginPath(); ctx.moveTo(PAD, y); ctx.lineTo(W - PAD, y); ctx.stroke(); ctx.restore();
+      ctx.beginPath(); ctx.moveTo(INNER + 28, y); ctx.lineTo(W - INNER - 28, y); ctx.stroke(); ctx.restore();
     };
 
-    // ── Kopf: Logo + Wortmarke kombiniert, zentriert, präsent ──
-    const LOGO_SZ = 168;
-    const logoY = 96;
-    if (logo) ctx.drawImage(logo, (W - LOGO_SZ) / 2, logoY, LOGO_SZ, LOGO_SZ);
-    cx('SUNDOWNER', logoY + LOGO_SZ + 78, `500 56px ${BH}`, INK);
-    cx('QUATTRO BEACHVOLLEYBALL REIHE', logoY + LOGO_SZ + 116, `600 14px ${MONO}`, INK2);
+    const CARD_L = INNER + 40;
+    const CARD_R = W - INNER - 40;
+    const CARD_W = CARD_R - CARD_L;
 
-    // ── Teamname (groß, Badhorse, klarer Abstand zum Kopf) ──
-    const maxTW = W - PAD * 2;
-    let fs = 116;
-    ctx.font = `400 ${fs}px ${BH}`;
-    while (ctx.measureText(d.teamName).width > maxTW && fs > 44) {
-      fs -= 4;
-      ctx.font = `400 ${fs}px ${BH}`;
-    }
-    const nameWords = d.teamName.split(' ');
-    let nameLines = [''];
-    nameWords.forEach(word => {
-      const test = nameLines[nameLines.length-1] + (nameLines[nameLines.length-1] ? ' ' : '') + word;
-      ctx.font = `400 ${fs}px ${BH}`;
-      if (ctx.measureText(test).width > maxTW) nameLines.push(word);
-      else nameLines[nameLines.length-1] = test;
-    });
-    const nlH = fs * 1.08;
-    const nameY = logoY + LOGO_SZ + 240;
-    nameLines.forEach((l, i) => cx(l, nameY + i * nlH, `400 ${fs}px ${BH}`, GOLD_DK));
-    const afterName = nameY + nameLines.length * nlH;
+    // ── Kopfzeile: Logo + Teamname links, "2026"-Badge rechts ──
+    // Logo und Badge exakt gleich groß (gleicher Radius, gleiche Position)
+    const HEAD_R = 64;               // Radius von Logo-Kreis UND Jahres-Badge
+    const headTop = INNER + 30;
+    const logoCx = CARD_L + HEAD_R, logoCy = headTop + HEAD_R;
 
-    // ── "Dabei seit" — als ruhige Textzeile statt Pill, dicht am Namen ──
-    const yearsLabel = d.sortedYears.length > 1
-      ? `${d.sortedYears[0]} – ${d.sortedYears[d.sortedYears.length-1]}`
-      : String(d.sortedYears[0]);
-    cx(`DABEI SEIT ${yearsLabel}`, afterName + 46, `600 17px ${MONO}`, INK2);
-
-    // ── Siegquote mit klar lesbarem Label direkt darunter ──
-    const pctY = afterName + 330;
-    cx(`${d.pct}%`, pctY, `400 210px ${BH}`, GOLD);
-    cx('SIEGQUOTE ALLZEIT', pctY + 56, `700 22px ${MONO}`, INK);
-
-    // ── Stats Block: 3 Kacheln, große Labels ──
-    const div2 = pctY + 150;
-    hline(div2);
-
-    const stats = [
-      { val: String(d.wins),    label: 'SIEGE' },
-      { val: String(d.losses),  label: 'NIEDERLAGEN' },
-      ...(d.rank > 0 ? [{ val: `#${d.rank}`, label: `VON ${d.rankOf}` }] : []),
-    ];
-    const slotW = (W - PAD * 2) / stats.length;
-    const statValY = div2 + 132;
-    const statLblY = div2 + 174;
-
-    stats.forEach((s, i) => {
-      const scx = PAD + slotW * i + slotW / 2;
-      if (i > 0) {
-        ctx.save(); ctx.strokeStyle = LINE_C; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(PAD + slotW * i, div2 + 30); ctx.lineTo(PAD + slotW * i, div2 + 192); ctx.stroke(); ctx.restore();
-      }
-      ctx.save(); ctx.font = `400 86px ${BH}`; ctx.fillStyle = INK; ctx.textAlign = 'center';
-      ctx.fillText(s.val, scx, statValY); ctx.restore();
-      ctx.save(); ctx.font = `700 21px ${MONO}`; ctx.fillStyle = INK2; ctx.textAlign = 'center';
-      ctx.fillText(s.label, scx, statLblY); ctx.restore();
-    });
-
-    const div3 = div2 + 235;
-    hline(div3);
-
-    // ── Sekundäre Stats, deutlich größer ──
-    cx(`Ø ${d.avgPts} Punkte pro Spiel`, div3 + 70, `400 30px ${BH}`, INK);
-    cx(`${d.total} Spiele insgesamt`, div3 + 116, `700 21px ${MONO}`, INK2);
-
-    // ── Tagline, weiter unten, deutlich größer ──
-    const tagY = div3 + 250;
-    cx('Kommt für den Sport.', tagY,      `400 40px ${BH}`, INK);
-    cx('Bleibt für die Bar.',  tagY + 54, `400 40px ${BH}`, GOLD_DK);
-
-    // ── Footer: sanfter Gold-Verlauf, Instagram präsent ──
-    const footerY = H - 190;
-    const footerGrd = ctx.createLinearGradient(0, footerY, 0, H);
-    footerGrd.addColorStop(0,   'rgba(237,168,59,0)');
-    footerGrd.addColorStop(0.35, 'rgba(237,168,59,0.55)');
-    footerGrd.addColorStop(1,   GOLD);
-    ctx.fillStyle = footerGrd;
-    ctx.fillRect(0, footerY, W, H - footerY);
-
-    const igX = W / 2 - 150, igY = footerY + 95;
+    // Cream-Untergrund + Ring hinter dem Logo, damit es optisch genauso
+    // "schwer" wirkt wie das gefüllte Jahres-Badge auf der anderen Seite
     ctx.save();
-    ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.fillStyle = 'transparent';
-    ctx.beginPath(); ctx.roundRect(igX - 17, igY - 17, 34, 34, 9); ctx.stroke();
-    ctx.beginPath(); ctx.arc(igX, igY, 9, 0, Math.PI * 2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(igX + 11, igY - 11, 2.5, 0, Math.PI * 2); ctx.fillStyle = INK; ctx.fill();
+    ctx.fillStyle = SAND;
+    ctx.beginPath(); ctx.arc(logoCx, logoCy, HEAD_R, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = GOLD_DK; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(logoCx, logoCy, HEAD_R, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+    if (logo) {
+      ctx.save();
+      ctx.beginPath(); ctx.arc(logoCx, logoCy, HEAD_R - 6, 0, Math.PI * 2); ctx.clip();
+      ctx.drawImage(logo, logoCx - HEAD_R, logoCy - HEAD_R, HEAD_R * 2, HEAD_R * 2);
+      ctx.restore();
+    }
+
+    const nameX = CARD_L + HEAD_R * 2 + 28;
+    const headY = headTop + 58;
+    let nameFs = 54;
+    ctx.font = `500 ${nameFs}px ${BH}`;
+    const badgeW = 168;
+    const nameMaxW = CARD_R - nameX - badgeW;
+    while (ctx.measureText(d.teamName).width > nameMaxW && nameFs > 22) {
+      nameFs -= 2;
+      ctx.font = `500 ${nameFs}px ${BH}`;
+    }
+    lx(d.teamName, nameX, headY, `500 ${nameFs}px ${BH}`, INK);
+    lx('QUATTRO BEACHVOLLEYBALL REIHE', nameX, headY + 32, `600 14px ${MONO}`, INK2);
+
+    // Jahres-Badge oben rechts — warme Sonnen-Farben statt Schwarz
+    const badgeCx = CARD_R - HEAD_R, badgeCy = headTop + HEAD_R;
+    const badgeGrd = ctx.createRadialGradient(badgeCx, badgeCy, 0, badgeCx, badgeCy, HEAD_R);
+    badgeGrd.addColorStop(0, '#ffe9ab');
+    badgeGrd.addColorStop(1, GOLD);
+    ctx.save();
+    ctx.fillStyle = badgeGrd;
+    ctx.beginPath(); ctx.arc(badgeCx, badgeCy, HEAD_R, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = GOLD_DK; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.arc(badgeCx, badgeCy, HEAD_R, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+    ctx.save(); ctx.font = `700 14px ${MONO}`; ctx.fillStyle = INK; ctx.textAlign = 'center';
+    ctx.fillText('SAISON', badgeCx, badgeCy - 10); ctx.restore();
+    ctx.save(); ctx.font = `500 32px ${BH}`; ctx.fillStyle = INK; ctx.textAlign = 'center';
+    ctx.fillText('2026', badgeCx, badgeCy + 24); ctx.restore();
+
+    hline(headTop + HEAD_R * 2 + 30);
+
+    // ── "Artwork"-Fenster: Sommer-Sonnenuntergang mit zentrierter Siegquote ──
+    cx('SIEGQUOTE ALLZEIT', headTop + HEAD_R * 2 + 74, `700 22px ${MONO}`, GOLD_DK);
+
+    const artY = headTop + HEAD_R * 2 + 96;
+    const artH = 610;
+    const artCx = CARD_L + CARD_W / 2;
+    const artCy = artY + artH / 2;
+
+    ctx.save();
+    ctx.beginPath(); ctx.roundRect(CARD_L, artY, CARD_W, artH, 20); ctx.clip();
+
+    // Sommerlicher Sonnenuntergangs-Verlauf (wie Hero) statt Schwarz
+    const skyGrd = ctx.createLinearGradient(0, artY, 0, artY + artH);
+    skyGrd.addColorStop(0,    '#756a9c');
+    skyGrd.addColorStop(0.32, '#c08bb0');
+    skyGrd.addColorStop(0.62, GOLD);
+    skyGrd.addColorStop(0.85, '#ff7a3d');
+    skyGrd.addColorStop(1,    '#c8401f');
+    ctx.fillStyle = skyGrd; ctx.fillRect(CARD_L, artY, CARD_W, artH);
+
+    // Logo als großes, transparentes Wasserzeichen mittig im Hintergrund
+    if (logo) {
+      ctx.save();
+      ctx.globalAlpha = 0.16;
+      const wmSz = artH * 0.95;
+      ctx.drawImage(logo, artCx - wmSz/2, artCy - wmSz/2, wmSz, wmSz);
+      ctx.restore();
+    }
+
+    // Sonnen-Glow hinter der Zahl
+    const sunR = 300;
+    const sunGrd = ctx.createRadialGradient(artCx, artCy, 0, artCx, artCy, sunR);
+    sunGrd.addColorStop(0,   'rgba(255,240,200,0.85)');
+    sunGrd.addColorStop(0.6, 'rgba(255,222,140,0.25)');
+    sunGrd.addColorStop(1,   'rgba(255,222,140,0)');
+    ctx.fillStyle = sunGrd;
+    ctx.beginPath(); ctx.arc(artCx, artCy, sunR, 0, Math.PI * 2); ctx.fill();
+
+    // Siegquote: horizontal zentriert; vertikal optisch zentriert (mit
+    // Korrektur, da Ziffern/% durch die Schrift sonst zu hoch wirken)
+    ctx.save();
+    ctx.font = `500 240px ${BH}`;
+    ctx.fillStyle = SAND;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(`${d.pct}%`, artCx, artCy + 34);
     ctx.restore();
 
-    ctx.save(); ctx.font = `700 26px ${MONO}`; ctx.fillStyle = INK;
-    ctx.textAlign = 'left'; ctx.fillText('@beachvolleyball.magdeburg', igX + 28, igY + 9); ctx.restore();
+    // Cocktailglas unten im Artwork-Fenster (dezent, ecke rechts)
+    drawGlass(CARD_R - 130, artY + artH - 40);
+
+    ctx.restore(); // Ende Clip
+
+    ctx.save();
+    ctx.strokeStyle = 'rgba(21,21,26,0.2)'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.roundRect(CARD_L, artY, CARD_W, artH, 20); ctx.stroke();
+    ctx.restore();
+
+    // ── Stats-Liste im unteren Kartenbereich ("Attacken"-Stil) ──
+    let rowY = artY + artH + 76;
+
+    const yearsLabel = d.sortedYears.length > 1
+      ? `${d.sortedYears[0]}–${d.sortedYears[d.sortedYears.length-1]}`
+      : String(d.sortedYears[0]);
+
+    const statRows = [
+      { icon: '🏆', label: 'SIEGE',          val: String(d.wins) },
+      { icon: '💀', label: 'NIEDERLAGEN',    val: String(d.losses) },
+      ...(d.rank > 0 ? [{ icon: '📊', label: 'ALLZEIT-RANG', val: `#${d.rank} / ${d.rankOf}` }] : []),
+      { icon: '🎯', label: 'Ø PUNKTE / SPIEL', val: String(d.avgPts) },
+      { icon: '🏐', label: 'SPIELE GESAMT',  val: String(d.total) },
+      { icon: '📅', label: 'DABEI SEIT',     val: yearsLabel },
+    ];
+
+    const rowH = 92;
+    statRows.forEach((s, i) => {
+      const y = rowY + i * rowH;
+      if (i > 0) hline(y - rowH / 2 + 6, 'rgba(21,21,26,0.08)');
+
+      // Icon-Kreis links — kräftiger, deutlich sichtbarer Gold-Verlauf
+      const iconGrd = ctx.createRadialGradient(CARD_L + 34, y + 14, 4, CARD_L + 34, y + 14, 38);
+      iconGrd.addColorStop(0, '#ffe9ab');
+      iconGrd.addColorStop(1, GOLD);
+      ctx.save();
+      ctx.fillStyle = iconGrd;
+      ctx.beginPath(); ctx.arc(CARD_L + 34, y + 14, 38, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = GOLD_DK; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(CARD_L + 34, y + 14, 38, 0, Math.PI * 2); ctx.stroke();
+      ctx.font = '40px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(s.icon, CARD_L + 34, y + 16);
+      ctx.textBaseline = 'alphabetic';
+      ctx.restore();
+
+      lx(s.label, CARD_L + 92, y + 24, `700 40px ${MONO}`, INK2);
+      rx(s.val, CARD_R, y + 24, `700 40px ${MONO}`, GRAY_VAL);
+    });
+
+    const listBottom = rowY + statRows.length * rowH + 10;
+    hline(listBottom);
+
+    // ── Footer: Instagram-Handle + Kartennummer ──
+    const igY = H - INNER - 44;
+
+    // ── Tagline, deutlich größer — horizontal UND vertikal zentriert im
+    // verbleibenden Freiraum zwischen Stats-Liste und Footer ──
+    const tagTop = listBottom + 4;
+    const tagBottom = igY - 66;
+    const tagCenterY = (tagTop + tagBottom) / 2 + 34;
+    ctx.save();
+    ctx.font = `500 44px ${BH}`; ctx.fillStyle = GOLD_DK;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('KOMMT FÜR DEN SPORT.', W / 2, tagCenterY - 28);
+    ctx.fillText('BLEIBT FÜR DIE BAR.', W / 2, tagCenterY + 28);
+    ctx.restore();
+    ctx.save();
+    ctx.strokeStyle = INK2; ctx.lineWidth = 2.5; ctx.fillStyle = 'transparent';
+    const igX = CARD_L + 15;
+    ctx.beginPath(); ctx.roundRect(igX - 14, igY - 14, 28, 28, 8); ctx.stroke();
+    ctx.beginPath(); ctx.arc(igX, igY, 7, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(igX + 9, igY - 9, 2, 0, Math.PI * 2); ctx.fillStyle = INK2; ctx.fill();
+    ctx.restore();
+    ctx.save(); ctx.font = `600 20px ${MONO}`; ctx.fillStyle = INK2; ctx.textAlign = 'left';
+    ctx.fillText('@beachvolleyball.magdeburg', igX + 24, igY + 7); ctx.restore();
+
+    rx('SUNDOWNER · 2026', CARD_R, igY + 7, `600 18px ${MONO}`, INK3);
+
+    // ── Cocktailglas-Illustration (vereinfacht, canvas-gezeichnet) ──
+    function drawGlass(gx, gy) {
+      const gw = 90, gh = 150;
+      ctx.save();
+      // Glas-Umriss (leicht trapezförmig)
+      ctx.beginPath();
+      ctx.moveTo(gx - gw/2 + 8, gy - gh);
+      ctx.lineTo(gx + gw/2 - 8, gy - gh);
+      ctx.lineTo(gx + gw/2, gy);
+      ctx.lineTo(gx - gw/2, gy);
+      ctx.closePath();
+      const juiceGrd = ctx.createLinearGradient(0, gy - gh, 0, gy);
+      juiceGrd.addColorStop(0, 'rgba(255,219,122,0.9)');
+      juiceGrd.addColorStop(1, 'rgba(255,154,61,0.9)');
+      ctx.fillStyle = juiceGrd;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(250,246,236,0.8)'; ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Eiswürfel
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.save(); ctx.translate(gx - 14, gy - 46); ctx.rotate(-0.15);
+      ctx.fillRect(-13, -13, 26, 26); ctx.restore();
+      ctx.save(); ctx.translate(gx + 16, gy - 78); ctx.rotate(0.2);
+      ctx.fillRect(-12, -12, 24, 24); ctx.restore();
+
+      // Strohhalm
+      ctx.strokeStyle = '#e8536b'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(gx + 20, gy - gh - 44);
+      ctx.lineTo(gx - 10, gy - 30);
+      ctx.stroke();
+
+      ctx.restore();
+    }
 
     // ── Download ──
     canvas.toBlob(blob => {
