@@ -3261,7 +3261,7 @@ function lookupTeam() {
       if ((k==='t1' ? m.s1 : m.s2) > (k==='t1' ? m.s2 : m.s1)) allStats[t].w++;
     });
   });
-  const eligible = Object.entries(allStats).filter(([,s]) => s.n >= 5).sort((a,b) => b[1].w/b[1].n - a[1].w/a[1].n);
+  const eligible = Object.entries(allStats).filter(([,s]) => s.n >= 10).sort((a,b) => b[1].w/b[1].n - a[1].w/a[1].n);
   const rank = eligible.findIndex(([t]) => t === matched) + 1;
 
   const pctColor = pct >= 60 ? '#eda83b' : pct >= 40 ? 'rgba(250,246,236,0.85)' : 'rgba(250,246,236,0.55)';
@@ -3273,7 +3273,7 @@ function lookupTeam() {
   L.push({ icon:'📊', label:'Siegquote',           value:`<strong style="font-size:22px;color:${pctColor}">${pct} %</strong>` });
   L.push({ icon:'🎯', label:'Ø Punkte pro Spiel',  value:`<strong>${avgPts}</strong> Punkte im Schnitt` });
   if (rank > 0 && total >= 3)
-    L.push({ icon:'🏆', label:'Allzeit-Rang',      value:`Platz <strong>${rank}</strong> von ${eligible.length} Teams <span style="font-size:11px;opacity:0.45;font-weight:400;">(Siegquote aller Zeit, mind. 5 Spiele)</span>` });
+    L.push({ icon:'🏆', label:'Allzeit-Rang',      value:`Platz <strong>${rank}</strong> von ${eligible.length} Teams <span style="font-size:11px;opacity:0.45;font-weight:400;">(Siegquote aller Zeit, mind. 10 Spiele)</span>` });
   if (bestYearEntry) {
     const [yr, ys] = bestYearEntry;
     L.push({ icon:'🌟', label:'Beste Saison',      value:`<strong>${yr}</strong>: <strong>${Math.round(ys.w/ys.n*100)} % Siegquote</strong> in ${ys.n} Spielen` });
@@ -3665,7 +3665,7 @@ function generateTeamCard() {
     hline(headTop + HEAD_R * 2 + 30);
 
     // ── "Artwork"-Fenster: Sommer-Sonnenuntergang mit zentrierter Siegquote ──
-    cx('SIEGQUOTE ALLZEIT', headTop + HEAD_R * 2 + 74, `700 22px ${MONO}`, GOLD_DK);
+    cx('SIEGQUOTE ALLZEIT', headTop + HEAD_R * 2 + 78, `700 28px ${MONO}`, GOLD_DK);
 
     const artY = headTop + HEAD_R * 2 + 96;
     const artH = 610;
@@ -3678,9 +3678,9 @@ function generateTeamCard() {
     // Sommerlicher Sonnenuntergangs-Verlauf (wie Hero) statt Schwarz
     const skyGrd = ctx.createLinearGradient(0, artY, 0, artY + artH);
     skyGrd.addColorStop(0,    '#756a9c');
-    skyGrd.addColorStop(0.32, '#c08bb0');
-    skyGrd.addColorStop(0.62, GOLD);
-    skyGrd.addColorStop(0.85, '#ff7a3d');
+    skyGrd.addColorStop(0.14, '#c08bb0');
+    skyGrd.addColorStop(0.32, GOLD);
+    skyGrd.addColorStop(0.78, '#ff7a3d');
     skyGrd.addColorStop(1,    '#c8401f');
     ctx.fillStyle = skyGrd; ctx.fillRect(CARD_L, artY, CARD_W, artH);
 
@@ -3705,11 +3705,11 @@ function generateTeamCard() {
     // Siegquote: horizontal zentriert; vertikal optisch zentriert (mit
     // Korrektur, da Ziffern/% durch die Schrift sonst zu hoch wirken)
     ctx.save();
-    ctx.font = `500 240px ${BH}`;
+    ctx.font = `500 200px ${BH}`;
     ctx.fillStyle = SAND;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(`${d.pct}%`, artCx, artCy + 34);
+    ctx.fillText(`${d.pct}%`, artCx, artCy + 60);
     ctx.restore();
 
     // Cocktailglas unten im Artwork-Fenster (dezent, ecke rechts)
@@ -3738,10 +3738,11 @@ function generateTeamCard() {
       { icon: '📅', label: 'DABEI SEIT',     val: yearsLabel },
     ];
 
+    const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
     const rowH = 92;
     statRows.forEach((s, i) => {
       const y = rowY + i * rowH;
-      if (i > 0) hline(y - rowH / 2 + 6, 'rgba(21,21,26,0.08)');
+      if (i > 0) hline(y - rowH / 2 + 14, 'rgba(21,21,26,0.08)');
 
       // Icon-Kreis links — kräftiger, deutlich sichtbarer Gold-Verlauf
       const iconGrd = ctx.createRadialGradient(CARD_L + 34, y + 14, 4, CARD_L + 34, y + 14, 38);
@@ -3752,16 +3753,16 @@ function generateTeamCard() {
       ctx.beginPath(); ctx.arc(CARD_L + 34, y + 14, 38, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = GOLD_DK; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.arc(CARD_L + 34, y + 14, 38, 0, Math.PI * 2); ctx.stroke();
-      ctx.font = '40px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `40px ${EMOJI_FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(s.icon, CARD_L + 34, y + 16);
       ctx.textBaseline = 'alphabetic';
       ctx.restore();
 
       lx(s.label, CARD_L + 92, y + 24, `700 40px ${MONO}`, INK2);
-      rx(s.val, CARD_R, y + 24, `700 40px ${MONO}`, GRAY_VAL);
+      rx(s.val, CARD_R, y + 24, `700 40px ${MONO}`, INK2);
     });
 
-    const listBottom = rowY + statRows.length * rowH + 10;
+    const listBottom = rowY + (statRows.length - 1) * rowH + 60;
     hline(listBottom);
 
     // ── Footer: Instagram-Handle + Kartennummer ──
@@ -3837,7 +3838,20 @@ function generateTeamCard() {
     }, 'image/png');
   }
 
+  // Emoji-Glyphen auf einem unsichtbaren Mini-Canvas "vorwärmen" — auf
+  // manchen Systemen rendert der Browser Farb-Emoji-Zeichen beim allerersten
+  // Zeichnen auf einem Canvas nicht zuverlässig. Ein einmaliger Warmup-Draw
+  // vor der eigentlichen Karte behebt das.
+  function warmUpEmojis() {
+    const warm = document.createElement('canvas');
+    warm.width = 10; warm.height = 10;
+    const wctx = warm.getContext('2d');
+    wctx.font = '10px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    '🏆💀📊🎯🏐📅'.split('').forEach(ch => wctx.fillText(ch, 0, 8));
+  }
+
   document.fonts.ready.then(() => {
+    warmUpEmojis();
     if (logoEl && logoEl.complete) draw(logoEl);
     else if (logoEl) { logoEl.onload = () => draw(logoEl); }
     else draw(null);
