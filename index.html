@@ -3602,6 +3602,7 @@ function generateTeamCard() {
   const INK     = '#15151a';
   const INK2    = 'rgba(21,21,26,0.55)';
   const INK3    = 'rgba(21,21,26,0.32)';
+  const STATCLR = 'rgba(21,21,26,0.4)';
   const GOLD    = '#eda83b';
   const GOLD_DK = '#c9821f';
   const LINE_C  = 'rgba(21,21,26,0.10)';
@@ -3810,8 +3811,8 @@ function generateTeamCard() {
       }
       ctx.restore();
 
-      lx(s.label, CARD_L + 92, y + 24, `700 34px ${SANS}`, INK2);
-      rx(s.val, CARD_R, y + 24, `700 34px ${SANS}`, INK2);
+      lx(s.label, CARD_L + 92, y + 24, `700 34px ${SANS}`, STATCLR);
+      rx(s.val, CARD_R, y + 24, `700 34px ${SANS}`, STATCLR);
     });
 
     const listBottom = rowY + (statRows.length - 1) * rowH + 60;
