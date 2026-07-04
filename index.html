@@ -3716,7 +3716,7 @@ function generateTeamCard() {
     hline(headTop + HEAD_R * 2 + 30);
 
     // ── "Artwork"-Fenster: Sommer-Sonnenuntergang mit zentrierter Siegquote ──
-    cx('SIEGQUOTE ALLZEIT', headTop + HEAD_R * 2 + 78, `700 28px ${SANS}`, GOLD_DK);
+    cx('SIEGQUOTE ALLZEIT', headTop + HEAD_R * 2 + 78, `700 34px ${SANS}`, GOLD_DK);
 
     const artY = headTop + HEAD_R * 2 + 96;
     const artH = 610;
@@ -3810,8 +3810,8 @@ function generateTeamCard() {
       }
       ctx.restore();
 
-      lx(s.label, CARD_L + 92, y + 24, `700 40px ${SANS}`, INK2);
-      rx(s.val, CARD_R, y + 24, `700 40px ${SANS}`, INK2);
+      lx(s.label, CARD_L + 92, y + 24, `700 34px ${SANS}`, INK2);
+      rx(s.val, CARD_R, y + 24, `700 34px ${SANS}`, INK2);
     });
 
     const listBottom = rowY + (statRows.length - 1) * rowH + 60;
@@ -3894,10 +3894,7 @@ function generateTeamCard() {
   const emojiLoads = Object.entries(EMOJI_ICONS).map(([ch, src]) => new Promise(resolve => {
     const img = new Image();
     emojiImages[ch] = img;
-    img.onload = () => {
-      if (img.decode) img.decode().then(resolve, resolve);
-      else resolve();
-    };
+    img.onload = resolve;
     img.onerror = resolve;
     img.src = src;
   }));
