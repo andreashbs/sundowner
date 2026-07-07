@@ -44,9 +44,17 @@
 
   /* ---------- NAV / LOGO ---------- */
   .nav{
-    position:absolute; top:0; left:0; right:0; z-index:10;
+    position:fixed; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:26px 6vw;
+    transition: background 0.25s ease, padding 0.25s ease, box-shadow 0.25s ease;
+  }
+  .nav.scrolled{
+    background:rgba(21,21,26,0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding:14px 6vw;
+    box-shadow:0 4px 20px rgba(0,0,0,0.15);
   }
   .nav-logo{
     display:flex; align-items:center; gap:12px;
@@ -56,6 +64,10 @@
     border-radius:50%;
     overflow:hidden;
     box-shadow:0 6px 18px rgba(0,0,0,0.3);
+    transition: width 0.25s ease, height 0.25s ease;
+  }
+  .nav.scrolled .nav-logo img{
+    width:56px; height:56px;
   }
   .nav-word{
     font-family:'Badhorse', 'Fredoka', sans-serif;
@@ -3499,6 +3511,18 @@ document.addEventListener('DOMContentLoaded', function() {
       textSpan.textContent = playedGames + ' von 6 Spieltage sind gespielt';
     }
   });
+
+  // Nav-Leiste bleibt beim Scrollen sichtbar (fixed) — Hintergrund einblenden,
+  // sobald man die Startsektion verlassen hat, damit Logo/Links/Burger auch
+  // über hellen Bereichen lesbar bleiben.
+  const navEl = document.querySelector('.nav');
+  if (navEl) {
+    const updateNavScrolled = () => {
+      navEl.classList.toggle('scrolled', window.scrollY > 60);
+    };
+    updateNavScrolled();
+    window.addEventListener('scroll', updateNavScrolled, { passive: true });
+  }
 
   // Navigation Smooth Scroll
   const navLinks = document.querySelectorAll('.nav-links a');
