@@ -2395,15 +2395,6 @@
           </tr>
           <tr>
             <td><span class="lb-rank">🥉</span></td>
-            <td class="lb-team">ImPoSand</td>
-            <td style="text-align:center;">4</td>
-            <td style="text-align:center;">0</td>
-            <td style="text-align:center;">0</td>
-            <td style="text-align:center;">1</td>
-            <td class="lb-points">11</td>
-          </tr>
-          <tr>
-            <td><span class="lb-rank">🥉</span></td>
             <td class="lb-team">Die A.T.S.E.n</td>
             <td style="text-align:center;">5</td>
             <td style="text-align:center;">0</td>
@@ -2412,12 +2403,21 @@
             <td class="lb-points">11</td>
           </tr>
           <tr>
+            <td><span class="lb-rank">🥉</span></td>
+            <td class="lb-team">ImPoSand</td>
+            <td style="text-align:center;">4</td>
+            <td style="text-align:center;">0</td>
+            <td style="text-align:center;">0</td>
+            <td style="text-align:center;">1</td>
+            <td class="lb-points">11</td>
+          </tr>
+          <tr>
             <td><span class="lb-rank">5.</span></td>
-            <td class="lb-team">Orgateam</td>
-            <td style="text-align:center;">1</td>
-            <td style="text-align:center;">1</td>
+            <td class="lb-team">Waschbären</td>
+            <td style="text-align:center;">5</td>
             <td style="text-align:center;">0</td>
             <td style="text-align:center;">0</td>
+            <td style="text-align:center;">1</td>
             <td class="lb-points">8</td>
           </tr>
           <tr>
@@ -2431,11 +2431,11 @@
           </tr>
           <tr>
             <td><span class="lb-rank">5.</span></td>
-            <td class="lb-team">Waschbären</td>
-            <td style="text-align:center;">5</td>
-            <td style="text-align:center;">0</td>
-            <td style="text-align:center;">0</td>
+            <td class="lb-team">Orgateam</td>
             <td style="text-align:center;">1</td>
+            <td style="text-align:center;">1</td>
+            <td style="text-align:center;">0</td>
+            <td style="text-align:center;">0</td>
             <td class="lb-points">8</td>
           </tr>
           <tr>
@@ -2449,15 +2449,6 @@
           </tr>
           <tr>
             <td><span class="lb-rank">9.</span></td>
-            <td class="lb-team">Mein Lieblingsteam</td>
-            <td style="text-align:center;">1</td>
-            <td style="text-align:center;">0</td>
-            <td style="text-align:center;">0</td>
-            <td style="text-align:center;">0</td>
-            <td class="lb-points">3</td>
-          </tr>
-          <tr>
-            <td><span class="lb-rank">9.</span></td>
             <td class="lb-team">Sandtastics</td>
             <td style="text-align:center;">2</td>
             <td style="text-align:center;">0</td>
@@ -2466,9 +2457,18 @@
             <td class="lb-points">3</td>
           </tr>
           <tr>
+            <td><span class="lb-rank">9.</span></td>
+            <td class="lb-team">Mein Lieblingsteam</td>
+            <td style="text-align:center;">1</td>
+            <td style="text-align:center;">0</td>
+            <td style="text-align:center;">0</td>
+            <td style="text-align:center;">0</td>
+            <td class="lb-points">3</td>
+          </tr>
+          <tr>
             <td><span class="lb-rank">11.</span></td>
-            <td class="lb-team">Just Here for Snacks</td>
-            <td style="text-align:center;">2</td>
+            <td class="lb-team">H.O.P.E VB</td>
+            <td style="text-align:center;">3</td>
             <td style="text-align:center;">0</td>
             <td style="text-align:center;">0</td>
             <td style="text-align:center;">0</td>
@@ -2476,8 +2476,8 @@
           </tr>
           <tr>
             <td><span class="lb-rank">11.</span></td>
-            <td class="lb-team">H.O.P.E VB</td>
-            <td style="text-align:center;">3</td>
+            <td class="lb-team">Just Here for Snacks</td>
+            <td style="text-align:center;">2</td>
             <td style="text-align:center;">0</td>
             <td style="text-align:center;">0</td>
             <td style="text-align:center;">0</td>
@@ -2762,7 +2762,7 @@
       <div class="gallery-item" data-galdate="2026-07-09" data-stop="stop-5">
         <div class="gallery-placeholder">
           <svg class="gal-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <div class="gal-status">Fotos folgen nach dem Event</div>
+          <div class="gal-status">13 Fotos</div>
           <div class="gal-label">Montego — Stop 5</div>
           <div class="gal-date">09. Juli 2026</div>
         </div>
@@ -3336,13 +3336,13 @@ function lookupTeam() {
   ms.forEach(m => {
     const isT1 = m.t1 === matched;
     const my = isT1 ? m.s1 : m.s2, their = isT1 ? m.s2 : m.s1, opp = isT1 ? m.t2 : m.t1;
-    years.add(m.y);
+    years.add(m.year);
     totalPtsFor += my;
     oppGames[opp] = (oppGames[opp] || 0) + 1;
-    if (!byYear[m.y]) byYear[m.y] = { w: 0, n: 0 };
-    byYear[m.y].n++;
+    if (!byYear[m.year]) byYear[m.year] = { w: 0, n: 0 };
+    byYear[m.year].n++;
     if (my > their) {
-      wins++; byYear[m.y].w++;
+      wins++; byYear[m.year].w++;
       const d = my - their;
       if (d > bestDiff) { bestDiff = d; bestWin = { my, opp, their }; }
       oppWinsFor[opp] = (oppWinsFor[opp] || 0) + 1;
