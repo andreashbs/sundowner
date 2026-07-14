@@ -3306,51 +3306,97 @@
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 30px; align-items: start;">
       <div>
-        <p style="font-size: 15px; line-height: 1.7; color: rgba(250,246,236,0.8); margin: 0 0 28px 0;">
-          Wir planen offizielle Sundowner-Trikots für die nächste Saison — Design steht, Menge und Preis noch nicht. Trag dich unverbindlich ein, auch fürs ganze Team. Kein Risiko, keine Zahlung — nur ein Fingerzeig für uns, wie viele wir brauchen.
+        <p style="font-size: 15px; line-height: 1.7; color: rgba(250,246,236,0.8); margin: 0 0 24px 0;">
+          Die Idee steht: offizielle Sundowner-Trikots für 2027. Konzept, Design, Menge und Preis — alles noch offen. Trag dich unverbindlich ein, auch fürs ganze Team, damit wir eine Hausnummer haben.
         </p>
-        <div style="padding: 16px; background: rgba(237,168,59,0.1); border-left: 3px solid var(--gold); border-radius: 6px; font-size: 13px; color: rgba(250,246,236,0.6);">
-          Unverbindlich · Keine Vorauszahlung · Kein Account nötig
-        </div>
+        <p style="font-size: 13px; color: rgba(250,246,236,0.45); margin: 0; line-height: 1.6;">
+          Unverbindlich — kein Account, keine Zahlung, kein Abo.
+        </p>
       </div>
 
-      <form id="trikot-form" style="background: rgba(250,246,236,0.05); border: 1px solid rgba(250,246,236,0.12); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 16px;">
-        <div>
-          <label style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(250,246,236,0.5); display: block; margin-bottom: 6px;">Name &amp; E-Mail</label>
-          <input type="text" name="kontakt" placeholder="z.B. Max Muster · max@mail.de" required
-            style="width: 100%; background: rgba(250,246,236,0.08); border: 1px solid rgba(250,246,236,0.2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box;">
+      <div>
+        <form id="trikot-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(250,246,236,0.45); display: block; margin-bottom: 6px;">Name</label>
+              <input type="text" name="name" placeholder="Dein Name" required
+                style="width: 100%; background: rgba(250,246,236,0.07); border: 1px solid rgba(250,246,236,0.15); border-radius: 8px; padding: 10px 13px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box; transition: border-color 0.2s;"
+                onfocus="this.style.borderColor='rgba(237,168,59,0.5)'" onblur="this.style.borderColor='rgba(250,246,236,0.15)'">
+            </div>
+            <div>
+              <label style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(250,246,236,0.45); display: block; margin-bottom: 6px;">E-Mail</label>
+              <input type="email" name="email" placeholder="deine@mail.de" required
+                style="width: 100%; background: rgba(250,246,236,0.07); border: 1px solid rgba(250,246,236,0.15); border-radius: 8px; padding: 10px 13px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box; transition: border-color 0.2s;"
+                onfocus="this.style.borderColor='rgba(237,168,59,0.5)'" onblur="this.style.borderColor='rgba(250,246,236,0.15)'">
+            </div>
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(250,246,236,0.45); display: block; margin-bottom: 6px;">Für wie viele Trikots?</label>
+            <input type="number" name="anzahl" min="1" max="20" placeholder="z.B. 4" required
+              style="width: 100%; background: rgba(250,246,236,0.07); border: 1px solid rgba(250,246,236,0.15); border-radius: 8px; padding: 10px 13px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box; transition: border-color 0.2s;"
+              onfocus="this.style.borderColor='rgba(237,168,59,0.5)'" onblur="this.style.borderColor='rgba(250,246,236,0.15)'">
+          </div>
+          <div>
+            <label style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(250,246,236,0.45); display: block; margin-bottom: 6px;">Größen <span style="font-weight: 400; text-transform: none; opacity: 0.7;">(optional — z.B. 2×M, 1×L)</span></label>
+            <input type="text" name="groessen" placeholder="z.B. 2×M, 1×L"
+              style="width: 100%; background: rgba(250,246,236,0.07); border: 1px solid rgba(250,246,236,0.15); border-radius: 8px; padding: 10px 13px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box; transition: border-color 0.2s;"
+              onfocus="this.style.borderColor='rgba(237,168,59,0.5)'" onblur="this.style.borderColor='rgba(250,246,236,0.15)'">
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px; margin-top: 4px;">
+            <button id="trikot-btn" type="submit"
+              style="background: var(--gold); color: var(--ink); border: none; border-radius: 20px; padding: 11px 26px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; white-space: nowrap;">
+              Interesse zeigen
+            </button>
+            <div id="trikot-loading" style="display:none; font-size: 13px; color: rgba(250,246,236,0.5);">Wird eingetragen…</div>
+          </div>
+        </form>
+
+        <div id="trikot-success" style="display:none; padding: 18px; background: rgba(237,168,59,0.1); border: 1px solid rgba(237,168,59,0.3); border-radius: 10px; margin-top: 4px;">
+          <div style="font-size: 15px; font-weight: 700; color: var(--gold); margin-bottom: 6px;">✓ Eingetragen!</div>
+          <div style="font-size: 13px; color: rgba(250,246,236,0.7); line-height: 1.5;">Danke — wir melden uns, sobald es konkret wird.</div>
         </div>
-        <div>
-          <label style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(250,246,236,0.5); display: block; margin-bottom: 6px;">Für wie viele Trikots interessierst du dich?</label>
-          <input type="number" name="anzahl" min="1" max="20" placeholder="z.B. 4" required
-            style="width: 100%; background: rgba(250,246,236,0.08); border: 1px solid rgba(250,246,236,0.2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box;">
+
+        <div id="trikot-error" style="display:none; padding: 18px; background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.25); border-radius: 10px; margin-top: 4px;">
+          <div style="font-size: 14px; font-weight: 700; color: #f87171; margin-bottom: 6px;">Hm, das hat nicht geklappt.</div>
+          <div style="font-size: 13px; color: rgba(250,246,236,0.6); line-height: 1.5;">Schreib uns kurz direkt: <a href="mailto:beachvolleyball.magdeburg@gmail.com" style="color: var(--gold);">beachvolleyball.magdeburg@gmail.com</a></div>
         </div>
-        <div>
-          <label style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(250,246,236,0.5); display: block; margin-bottom: 6px;">Größen <span style="font-weight: 400; text-transform: none;">(optional, z.B. 2×M, 1×L)</span></label>
-          <input type="text" name="groessen" placeholder="z.B. 2×M, 1×L"
-            style="width: 100%; background: rgba(250,246,236,0.08); border: 1px solid rgba(250,246,236,0.2); border-radius: 8px; padding: 10px 14px; font-size: 14px; color: var(--cream); outline: none; box-sizing: border-box;">
-        </div>
-        <button type="submit"
-          style="background: var(--gold); color: var(--ink); border: none; border-radius: 20px; padding: 13px 28px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; align-self: flex-start;">
-          Interesse zeigen
-        </button>
-        <div id="trikot-confirm" style="display:none; font-size: 13px; color: var(--gold); margin-top: 4px;">✓ Danke! Wir melden uns, sobald es konkret wird.</div>
-      </form>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
 (function(){
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxO2CQSiVGAaJnlLIsR0tAw9OwkUCTgRUpe_T2u1BcfzIKrOU7viSnZFLzyi2_hjY-5GQ/exec';
   var form = document.getElementById('trikot-form');
-  if(!form) return;
-  form.addEventListener('submit', function(e){
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
-    var data = new FormData(form);
-    var body = 'Trikot-Interesse:\n\nName/Kontakt: ' + (data.get('kontakt')||'') + '\nAnzahl: ' + (data.get('anzahl')||'') + '\nGrößen: ' + (data.get('groessen')||'');
-    window.location.href = 'mailto:beachvolleyball.magdeburg@gmail.com?subject=Trikot%202027%20%E2%80%94%20Interesse&body=' + encodeURIComponent(body);
-    document.getElementById('trikot-confirm').style.display = 'block';
-    form.reset();
+
+    var btn     = document.getElementById('trikot-btn');
+    var loading = document.getElementById('trikot-loading');
+    var success = document.getElementById('trikot-success');
+    var error   = document.getElementById('trikot-error');
+
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
+    loading.style.display = 'block';
+    error.style.display   = 'none';
+
+    var fd = new FormData(form);
+
+    fetch(ENDPOINT, { method: 'POST', body: fd })
+      .then(function() {
+        form.style.display   = 'none';
+        success.style.display = 'block';
+      })
+      .catch(function() {
+        loading.style.display = 'none';
+        error.style.display   = 'block';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      });
   });
 })();
 </script>
