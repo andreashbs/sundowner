@@ -3545,8 +3545,8 @@
 </section>
 
 <script>
-(function() {
-  if (!window.MATCH_DATA) return;
+window.addEventListener('load', function() {
+  if (typeof MATCH_DATA === 'undefined') return;
   var cfg = { 2025: {}, 2024: {}, 2023: {}, 2022: {} };
   MATCH_DATA.forEach(function(m) {
     var y = cfg[m.year];
@@ -3571,7 +3571,7 @@
       '<span>🎾 ' + y.matches + ' Spiele</span>' +
       '<span>🔥 bis zu ' + topWins + ' Siege (bestes Team)</span>';
   });
-})();
+});
 </script>
 
 <section class="section" id="impressum" style="background: rgba(21,21,26,0.02);">
