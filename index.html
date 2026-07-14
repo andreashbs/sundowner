@@ -1837,7 +1837,7 @@
           <li style="margin-bottom: 6px;">✅ Standard-Hallenregeln</li>
           <li style="margin-bottom: 6px;">❌ Übers-Netz-Pritschen nicht erlaubt</li>
           <li style="margin-bottom: 6px;">⚖️ Bei Uneinigkeit gilt: Nullball</li>
-          <li>🎯 Im Niveau flexibel - von „war noch nie am Ball" bis „hat mal höher gespielt", hier ist jeder richtig, Hauptsache Bock.</li>
+          <li>🎯 Im Niveau flexibel - von „war noch nie am Ball" bis „hat mal höher gespielt", Hauptsache Bock.</li>
         </ul>
       </div>
 
@@ -3386,7 +3386,7 @@
 
     var fd = new FormData(form);
 
-    fetch(ENDPOINT, { method: 'POST', body: fd })
+    fetch(ENDPOINT, { method: 'POST', body: fd, mode: 'no-cors' })
       .then(function() {
         form.style.display   = 'none';
         success.style.display = 'block';
@@ -3403,57 +3403,79 @@
 
 <section class="section" id="archiv" style="background: rgba(0,0,0,0.02);">
   <div class="section-wrap">
-    <div class="section-title">Archiv</div>
-    
+    <div class="section-head">
+      <div>
+        <div class="section-label">Was war, bleibt</div>
+        <div class="section-title">Archiv</div>
+      </div>
+    </div>
+    <p style="font-size: 15px; color: rgba(21,21,26,0.6); max-width: 560px; line-height: 1.6; margin: 16px 0 0;">
+      Jede Saison in einer Karte — Saisonsieger, die Zahlen und ein Easter Egg. Die Platzierten 2 und 3 werden nach und nach ergänzt; 2020 ist leider nicht mehr vollständig rekonstruierbar.
+    </p>
+
     <style>
-      .archiv-card { background: white; border-radius: 12px; border-left: 4px solid var(--gold); overflow: hidden; }
+      .archiv-card { background: white; border-radius: 14px; border-left: 4px solid var(--gold); overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
       .archiv-card.unknown { border-left-color: #ccc; }
-      .archiv-card summary { list-style: none; cursor: pointer; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+      .archiv-card summary { list-style: none; cursor: pointer; padding: 16px 20px 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; user-select: none; }
       .archiv-card summary::-webkit-details-marker { display: none; }
-      .archiv-card summary .archiv-label { font-size: 13px; font-weight: 700; color: #555; letter-spacing: 0.05em; }
-      .archiv-card summary .archiv-chevron { font-size: 11px; color: #aaa; transition: transform 0.2s; }
-      .archiv-card[open] summary .archiv-chevron { transform: rotate(180deg); }
-      .archiv-body { padding: 0 22px 18px; border-top: 1px solid rgba(0,0,0,0.06); }
-      .archiv-podium { display: flex; flex-direction: column; gap: 7px; font-size: 13px; margin-top: 14px; }
-      .archiv-podium .p1 { font-weight: 700; }
-      .archiv-podium .p23 { display: flex; gap: 20px; color: #555; }
-      .archiv-egg { margin-top: 12px; font-size: 12px; color: #888; font-style: italic; }
+      .archiv-sum-left { display: flex; flex-direction: column; gap: 3px; }
+      .archiv-label { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: 0.1em; text-transform: uppercase; }
+      .archiv-winner { font-size: 14px; font-weight: 700; color: var(--ink); }
+      .archiv-subline { font-size: 12px; color: #bbb; }
+      .archiv-chevron { font-size: 10px; color: #bbb; transition: transform 0.2s; margin-top: 4px; flex-shrink: 0; }
+      .archiv-card[open] .archiv-chevron { transform: rotate(180deg); }
+      .archiv-body { padding: 0 20px 18px; border-top: 1px solid rgba(0,0,0,0.05); }
+      .archiv-podium { display: flex; flex-direction: column; gap: 6px; font-size: 13px; margin-top: 14px; }
+      .archiv-podium .p1 { font-weight: 700; font-size: 14px; color: var(--ink); }
+      .archiv-podium .p23 { display: flex; gap: 20px; color: #777; font-size: 13px; }
+      .archiv-divider { border: none; border-top: 1px solid rgba(0,0,0,0.06); margin: 12px 0; }
+      .archiv-stats { font-size: 12px; color: #999; display: flex; gap: 14px; flex-wrap: wrap; }
+      .archiv-egg { margin-top: 10px; font-size: 12px; color: #888; font-style: italic; line-height: 1.5; }
+      .archiv-btn { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 600; color: var(--gold); text-decoration: none; border: 1px solid var(--gold); border-radius: 20px; padding: 5px 14px; transition: background 0.2s; }
+      .archiv-btn:hover { background: rgba(237,168,59,0.1); }
     </style>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 30px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 28px;">
 
       <!-- 2025 -->
       <details class="archiv-card">
         <summary>
-          <span class="archiv-label">📅 Saison 2025 · 3 Stops</span>
+          <div class="archiv-sum-left">
+            <span class="archiv-label">📅 2025 · 3 Stops</span>
+            <span class="archiv-winner">🏆 Orgateam</span>
+            <span class="archiv-subline" id="as-2025"></span>
+          </div>
           <span class="archiv-chevron">▼</span>
         </summary>
         <div class="archiv-body">
           <div class="archiv-podium">
             <div class="p1">🏆 Orgateam</div>
-            <div class="p23">
-              <span>🥈 —</span>
-              <span>🥉 —</span>
-            </div>
+            <div class="p23"><span>🥈 —</span><span>🥉 —</span></div>
           </div>
+          <hr class="archiv-divider">
+          <div class="archiv-stats" id="ast-2025"><span style="color:#ddd;">wird berechnet…</span></div>
           <div class="archiv-egg">✨ Das Jahr, in dem der Ausrichter den Pokal holte.</div>
+          <a class="archiv-btn" href="#leaderboard">Saison-Leaderboard →</a>
         </div>
       </details>
 
       <!-- 2024 -->
       <details class="archiv-card">
         <summary>
-          <span class="archiv-label">📅 Saison 2024 · 5 Stops</span>
+          <div class="archiv-sum-left">
+            <span class="archiv-label">📅 2024 · 5 Stops</span>
+            <span class="archiv-winner">🏆 ImPoSand</span>
+            <span class="archiv-subline" id="as-2024"></span>
+          </div>
           <span class="archiv-chevron">▼</span>
         </summary>
         <div class="archiv-body">
           <div class="archiv-podium">
             <div class="p1">🏆 ImPoSand</div>
-            <div class="p23">
-              <span>🥈 —</span>
-              <span>🥉 —</span>
-            </div>
+            <div class="p23"><span>🥈 —</span><span>🥉 —</span></div>
           </div>
+          <hr class="archiv-divider">
+          <div class="archiv-stats" id="ast-2024"><span style="color:#ddd;">wird berechnet…</span></div>
           <div class="archiv-egg">✨ Zweiter Titel — ImPoSand macht es zum Muster.</div>
         </div>
       </details>
@@ -3461,17 +3483,20 @@
       <!-- 2023 -->
       <details class="archiv-card">
         <summary>
-          <span class="archiv-label">📅 Saison 2023 · 5 Stops</span>
+          <div class="archiv-sum-left">
+            <span class="archiv-label">📅 2023 · 5 Stops</span>
+            <span class="archiv-winner">🏆 Kool and the Gang</span>
+            <span class="archiv-subline" id="as-2023"></span>
+          </div>
           <span class="archiv-chevron">▼</span>
         </summary>
         <div class="archiv-body">
           <div class="archiv-podium">
             <div class="p1">🏆 Kool and the Gang</div>
-            <div class="p23">
-              <span>🥈 —</span>
-              <span>🥉 —</span>
-            </div>
+            <div class="p23"><span>🥈 —</span><span>🥉 —</span></div>
           </div>
+          <hr class="archiv-divider">
+          <div class="archiv-stats" id="ast-2023"><span style="color:#ddd;">wird berechnet…</span></div>
           <div class="archiv-egg">✨ Celebration! — der Teamname war Programm.</div>
         </div>
       </details>
@@ -3479,17 +3504,20 @@
       <!-- 2022 -->
       <details class="archiv-card">
         <summary>
-          <span class="archiv-label">📅 Saison 2022 · 6 Stops</span>
+          <div class="archiv-sum-left">
+            <span class="archiv-label">📅 2022 · 6 Stops</span>
+            <span class="archiv-winner">🏆 ImPoSand</span>
+            <span class="archiv-subline" id="as-2022"></span>
+          </div>
           <span class="archiv-chevron">▼</span>
         </summary>
         <div class="archiv-body">
           <div class="archiv-podium">
             <div class="p1">🏆 ImPoSand</div>
-            <div class="p23">
-              <span>🥈 —</span>
-              <span>🥉 —</span>
-            </div>
+            <div class="p23"><span>🥈 —</span><span>🥉 —</span></div>
           </div>
+          <hr class="archiv-divider">
+          <div class="archiv-stats" id="ast-2022"><span style="color:#ddd;">wird berechnet…</span></div>
           <div class="archiv-egg">✨ Angetreten als „Im Niveau Flexibel" — und gewonnen.</div>
         </div>
       </details>
@@ -3497,17 +3525,54 @@
       <!-- 2020 -->
       <details class="archiv-card unknown">
         <summary>
-          <span class="archiv-label">📅 Saison 2020 · Erste Saison</span>
+          <div class="archiv-sum-left">
+            <span class="archiv-label">📅 2020 · Erste Saison</span>
+            <span class="archiv-winner" style="color:#bbb;">🕵️ Daten verschollen</span>
+          </div>
           <span class="archiv-chevron">▼</span>
         </summary>
         <div class="archiv-body">
-          <div style="font-size: 13px; color: #999; margin-top: 14px;">🕵️ Details verschollen im Sand.</div>
+          <p style="font-size: 13px; color: #bbb; margin-top: 14px; line-height: 1.5;">Die erste Saison — aber die Erinnerungen sind größer als die Datenlage.</p>
         </div>
       </details>
 
     </div>
+
+    <p style="font-size: 12px; color: rgba(21,21,26,0.3); margin-top: 20px; line-height: 1.5;">
+      Saison 2026 wird nach dem letzten Stop archiviert. · Teams- und Spielzahlen werden aus den Matchdaten berechnet.
+    </p>
   </div>
 </section>
+
+<script>
+(function() {
+  if (!window.MATCH_DATA) return;
+  var cfg = { 2025: {}, 2024: {}, 2023: {}, 2022: {} };
+  MATCH_DATA.forEach(function(m) {
+    var y = cfg[m.year];
+    if (!y) return;
+    y.matches = (y.matches || 0) + 1;
+    y.teams = y.teams || {};
+    if (!(m.t1 in y.teams)) y.teams[m.t1] = 0;
+    if (!(m.t2 in y.teams)) y.teams[m.t2] = 0;
+    if (m.s1 > m.s2) y.teams[m.t1]++;
+    else if (m.s2 > m.s1) y.teams[m.t2]++;
+  });
+  Object.keys(cfg).forEach(function(yr) {
+    var y = cfg[yr];
+    if (!y.matches) return;
+    var teamCount = Object.keys(y.teams).length;
+    var topWins = Object.values(y.teams).reduce(function(a, b) { return Math.max(a, b); }, 0);
+    var sub = document.getElementById('as-' + yr);
+    var stats = document.getElementById('ast-' + yr);
+    if (sub) sub.textContent = teamCount + ' Teams · ' + y.matches + ' Spiele';
+    if (stats) stats.innerHTML =
+      '<span>👥 ' + teamCount + ' Teams</span>' +
+      '<span>🎾 ' + y.matches + ' Spiele</span>' +
+      '<span>🔥 bis zu ' + topWins + ' Siege (bestes Team)</span>';
+  });
+})();
+</script>
 
 <section class="section" id="impressum" style="background: rgba(21,21,26,0.02);">
   <div class="section-wrap">
