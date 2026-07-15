@@ -333,7 +333,7 @@
     align-items: center;
     font-family: 'Questrial', sans-serif;
     font-size: 15px;
-    color: var(--ink);
+    color: var(--cream);
     background: var(--gold);
     text-decoration: none;
     border-radius: 999px;
@@ -1771,13 +1771,10 @@
                 </div>
             </h1>
             <p class="hero-sub">Kein Naturschauspiel, kein Yoga-Retreat – einfach Beachvolleyball und das erste kalte Feierabendgetränk mit Leuten, auf die du Bock hast. Wann und wo der ganze Spaß stattfindet, steht hier unten.</p>
-            <div style="margin-top: 28px;">
-              <div style="font-family:'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,246,236,0.45); margin-bottom: 8px;">Wartest du auf ein Zeichen?</div>
-              <div style="font-family:'Fredoka', 'Badhorse', sans-serif; font-size: 22px; font-weight: 500; color: var(--cream); margin-bottom: 18px; line-height: 1.2;">Das hier ist es.</div>
+            <div style="margin-top: 32px; border-top: 1px solid rgba(250,246,236,0.12); padding-top: 22px;">
+              <div style="font-family:'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(250,246,236,0.55); margin-bottom: 10px;">Wartest du auf ein Zeichen?</div>
+              <div style="font-family:'Fredoka', 'Badhorse', sans-serif; font-size: 28px; font-weight: 500; color: var(--cream); margin-bottom: 20px; line-height: 1.15;">Das hier ist es.</div>
               <a href="#termine" class="hero-btn-primary">Team anmelden</a>
-              <div style="margin-top: 10px;">
-                <a href="#trikots" style="font-family:'Questrial', sans-serif; font-size: 13px; color: rgba(250,246,236,0.5); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='rgba(250,246,236,0.85)'" onmouseout="this.style.color='rgba(250,246,236,0.5)'">Trikots 2027 →</a>
-              </div>
             </div>
         </div>
     </section>
@@ -4433,5 +4430,15 @@ function downloadICal() {
 }
 
 </script>
+
+<!-- Trikot PostIt -->
+<div id="trikot-postit" style="position:fixed; top:76px; right:18px; z-index:900; width:158px; background:#FFF5B4; border-radius:2px; padding:14px 14px 16px; box-shadow:3px 5px 16px rgba(0,0,0,0.22); transform:rotate(2.5deg); font-family:'Questrial',sans-serif;">
+  <button onclick="document.getElementById('trikot-postit').style.display='none'" style="position:absolute; top:7px; right:9px; background:none; border:none; cursor:pointer; font-size:15px; color:rgba(0,0,0,0.35); padding:0; line-height:1; font-family:sans-serif;">×</button>
+  <div style="font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(0,0,0,0.35); margin-bottom:5px;">Gerade aktuell</div>
+  <div style="font-size:15px; font-weight:700; color:#1a1a1a; margin-bottom:6px; line-height:1.2;">Trikots 2027</div>
+  <div style="font-size:12px; color:rgba(0,0,0,0.6); line-height:1.5; margin-bottom:11px;">Unverbindlich Interesse zeigen — solange das Thema offen ist.</div>
+  <a href="#trikots" onclick="document.getElementById('trikot-postit').style.display='none'" style="font-size:12px; font-weight:700; color:#8a6200; text-decoration:none;">Eintragen →</a>
+</div>
+
 </body>
 </html>
