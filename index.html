@@ -333,8 +333,8 @@
     align-items: center;
     font-family: 'Questrial', sans-serif;
     font-size: 15px;
-    color: var(--cream);
-    background: var(--gold);
+    color: var(--ink);
+    background: var(--gold-lt);
     text-decoration: none;
     border-radius: 999px;
     padding: 10px 24px;
@@ -4432,12 +4432,11 @@ function downloadICal() {
 </script>
 
 <!-- Trikot PostIt -->
-<div id="trikot-postit" style="position:fixed; top:76px; right:18px; z-index:900; width:158px; background:#FFF5B4; border-radius:2px; padding:14px 14px 16px; box-shadow:3px 5px 16px rgba(0,0,0,0.22); transform:rotate(2.5deg); font-family:'Questrial',sans-serif;">
-  <button onclick="document.getElementById('trikot-postit').style.display='none'" style="position:absolute; top:7px; right:9px; background:none; border:none; cursor:pointer; font-size:15px; color:rgba(0,0,0,0.35); padding:0; line-height:1; font-family:sans-serif;">×</button>
-  <div style="font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(0,0,0,0.35); margin-bottom:5px;">Gerade aktuell</div>
-  <div style="font-size:15px; font-weight:700; color:#1a1a1a; margin-bottom:6px; line-height:1.2;">Trikots 2027</div>
-  <div style="font-size:12px; color:rgba(0,0,0,0.6); line-height:1.5; margin-bottom:11px;">Unverbindlich Interesse zeigen — solange das Thema offen ist.</div>
-  <a href="#trikots" onclick="document.getElementById('trikot-postit').style.display='none'" style="font-size:12px; font-weight:700; color:#8a6200; text-decoration:none;">Eintragen →</a>
+<div id="trikot-postit" style="position:fixed; top:80px; right:20px; z-index:900; width:200px; background:#FFF5B4; border-radius:3px; padding:18px 18px 20px; box-shadow:4px 6px 20px rgba(0,0,0,0.22); transform:rotate(2.5deg); font-family:'Questrial',sans-serif;">
+  <button onclick="document.getElementById('trikot-postit').style.display='none'" style="position:absolute; top:8px; right:10px; background:none; border:none; cursor:pointer; font-size:16px; color:rgba(0,0,0,0.3); padding:0; line-height:1; font-family:sans-serif;">×</button>
+  <div style="font-family:'Fredoka','Badhorse',sans-serif; font-size:18px; font-weight:500; color:#1a1a1a; margin-bottom:8px; line-height:1.2;">Trikots 2027</div>
+  <div style="font-size:13px; color:rgba(0,0,0,0.6); line-height:1.5; margin-bottom:14px;">Unverbindlich Interesse zeigen.</div>
+  <a href="#trikots" onclick="document.getElementById('trikot-postit').style.display='none'" style="display:inline-flex; align-items:center; font-family:'Questrial',sans-serif; font-size:13px; font-weight:600; color:#FAF6EC; background:#1B1A3A; text-decoration:none; border-radius:999px; padding:7px 16px; transition:opacity 0.2s;">Eintragen →</a>
 </div>
 
 </body>
