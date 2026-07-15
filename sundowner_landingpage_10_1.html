@@ -3410,7 +3410,7 @@
       </div>
     </div>
     <p style="font-size: 15px; color: rgba(21,21,26,0.6); max-width: 560px; line-height: 1.6; margin: 16px 0 0;">
-      Jede Saison in einer Karte — Saisonsieger, die Zahlen und ein Easter Egg. Die Platzierten 2 und 3 werden nach und nach ergänzt; 2020 ist leider nicht mehr vollständig rekonstruierbar.
+      Jede Saison in einer Karte — Saisonsieger, Treppchen und die Zahlen. Die Platzierten 2 und 3 werden nach und nach ergänzt; 2020 ist leider nicht mehr vollständig rekonstruierbar.
     </p>
 
     <style>
@@ -3422,6 +3422,7 @@
       .archiv-label { font-size: 11px; font-weight: 700; color: #aaa; letter-spacing: 0.1em; text-transform: uppercase; }
       .archiv-winner { font-size: 14px; font-weight: 700; color: var(--ink); }
       .archiv-subline { font-size: 12px; color: #bbb; }
+      .archiv-quote { font-size: 12px; color: #999; font-style: italic; line-height: 1.4; }
       .archiv-chevron { font-size: 10px; color: #bbb; transition: transform 0.2s; margin-top: 4px; flex-shrink: 0; }
       .archiv-card[open] .archiv-chevron { transform: rotate(180deg); }
       .archiv-body { padding: 0 20px 18px; border-top: 1px solid rgba(0,0,0,0.05); }
@@ -3443,6 +3444,7 @@
           <div class="archiv-sum-left">
             <span class="archiv-label">📅 2025 · 3 Stops</span>
             <span class="archiv-winner">🏆 Orgateam</span>
+            <span class="archiv-quote">Wer den Platz kennt, kennt die Lücken.</span>
             <span class="archiv-subline" id="as-2025"></span>
           </div>
           <span class="archiv-chevron">▼</span>
@@ -3454,7 +3456,6 @@
           </div>
           <hr class="archiv-divider">
           <div class="archiv-stats" id="ast-2025"><span style="color:#ddd;">wird berechnet…</span></div>
-          <div class="archiv-egg">✨ Das Jahr, in dem der Ausrichter den Pokal holte.</div>
           <a class="archiv-btn" href="#leaderboard">Saison-Leaderboard →</a>
         </div>
       </details>
@@ -3465,6 +3466,7 @@
           <div class="archiv-sum-left">
             <span class="archiv-label">📅 2024 · 5 Stops</span>
             <span class="archiv-winner">🏆 ImPoSand</span>
+            <span class="archiv-quote">Im Niveau flexibel. Im Ergebnis nicht.</span>
             <span class="archiv-subline" id="as-2024"></span>
           </div>
           <span class="archiv-chevron">▼</span>
@@ -3476,7 +3478,6 @@
           </div>
           <hr class="archiv-divider">
           <div class="archiv-stats" id="ast-2024"><span style="color:#ddd;">wird berechnet…</span></div>
-          <div class="archiv-egg">✨ Zweiter Titel — ImPoSand macht es zum Muster.</div>
         </div>
       </details>
 
@@ -3486,6 +3487,7 @@
           <div class="archiv-sum-left">
             <span class="archiv-label">📅 2023 · 5 Stops</span>
             <span class="archiv-winner">🏆 Kool and the Gang</span>
+            <span class="archiv-quote">2022 noch Vize. 2023: Celebration.</span>
             <span class="archiv-subline" id="as-2023"></span>
           </div>
           <span class="archiv-chevron">▼</span>
@@ -3497,7 +3499,6 @@
           </div>
           <hr class="archiv-divider">
           <div class="archiv-stats" id="ast-2023"><span style="color:#ddd;">wird berechnet…</span></div>
-          <div class="archiv-egg">✨ Celebration! — der Teamname war Programm.</div>
         </div>
       </details>
 
@@ -3507,6 +3508,7 @@
           <div class="archiv-sum-left">
             <span class="archiv-label">📅 2022 · 6 Stops</span>
             <span class="archiv-winner">🏆 ImPoSand</span>
+            <span class="archiv-quote">Angetreten als „Im Niveau Flexibel" — und gewonnen.</span>
             <span class="archiv-subline" id="as-2022"></span>
           </div>
           <span class="archiv-chevron">▼</span>
@@ -3518,7 +3520,6 @@
           </div>
           <hr class="archiv-divider">
           <div class="archiv-stats" id="ast-2022"><span style="color:#ddd;">wird berechnet…</span></div>
-          <div class="archiv-egg">✨ Angetreten als „Im Niveau Flexibel" — und gewonnen.</div>
         </div>
       </details>
 
@@ -3568,7 +3569,7 @@ window.addEventListener('load', function() {
     if (sub) sub.textContent = teamCount + ' Teams · ' + y.matches + ' Spiele';
     if (stats) stats.innerHTML =
       '<span>👥 ' + teamCount + ' Teams</span>' +
-      '<span>🎾 ' + y.matches + ' Spiele</span>' +
+      '<span>🏐 ' + y.matches + ' Spiele</span>' +
       '<span>🔥 bis zu ' + topWins + ' Siege (bestes Team)</span>';
   });
 });
